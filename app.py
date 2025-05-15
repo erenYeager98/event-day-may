@@ -22,7 +22,7 @@ running_proc = None
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        if request.form.get('code') == SECRET_CODE:
+        if request.form.get('code', '').strip().lower() == SECRET_CODE.lower():
             return redirect(url_for('compiler'))
     return render_template('index.html')
 
