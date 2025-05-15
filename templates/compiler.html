@@ -3,79 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <title>Python Playground</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Courier New', monospace;
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+
+    .container {
       display: flex;
       flex-direction: column;
       height: 100vh;
-      background: #121212;
-      color: #e0e0e0;
     }
+
     .toolbar {
-      background: #1a1a1a;
-      padding: 10px;
+      height: 50px;
+      background-color: #252526;
       display: flex;
       align-items: center;
-      height: 50px;
-      box-sizing: border-box;
+      padding: 0 10px;
+      border-bottom: 1px solid #333;
     }
+
     .toolbar button {
       background: #00fff7;
-      color: #0d0d0d;
+      color: #000;
       border: none;
       padding: 8px 16px;
       margin-right: 10px;
       border-radius: 4px;
+      font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s;
     }
+
     .toolbar button:hover {
       background: #00b3a1;
       color: #fff;
     }
-    .pane {
+
+    .main {
+      flex: 1;
       display: flex;
-      height: calc(100vh - 50px); /* full height minus toolbar */
-      overflow: hidden;
     }
-    textarea.editor,
-    pre.output {
-      width: 50%;                /* fixed half width */
-      height: 100%;              /* full pane height */
-      box-sizing: border-box;
+
+    .editor-pane,
+    .output-pane {
+      width: 50%;
+      height: 100%;
+      padding: 15px;
     }
-    textarea.editor {
-      padding: 10px;
-      font-family: monospace;
-      font-size: 1rem;
-      background: #0d0d0d;
-      color: #e0e0e0;
+
+    .editor-pane {
+      background-color: #1e1e1e;
+      border-right: 1px solid #333;
+    }
+
+    .editor-pane textarea {
+      width: 100%;
+      height: 100%;
+      background: #1e1e1e;
       border: none;
       outline: none;
+      color: #ffffff;
+      font-size: 16px;
       resize: none;
     }
-    pre.output {
-      padding: 10px;
-      margin: 0;
-      background: #1a1a1a;
-      color: #e0e0e0;
+
+    .output-pane {
+      background-color: #0d0d0d;
       overflow-y: auto;
-      white-space: pre-wrap;
-      word-break: break-all;
     }
+
+    .output-pane pre {
+      color: #00ff88;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
   </style>
 </head>
 <body>
-  <form class="toolbar" method="POST" onsubmit="syncCode()">
-    <input type="hidden" name="code" id="codeInput" value="{{ code|e }}">
-    <button type="submit" name="action" value="run">Run</button>
-    <button type="submit" name="action" value="stop">Stop</button>
-  </form>
-  <div class="pane">
-    <textarea class="editor" id="editor" oninput="syncCode()">{{ code }}</textarea>
-    <pre class="output">{{ output }}</pre>
+  <div class="container">
+    <form class="toolbar" method="POST" onsubmit="syncCode()">
+      <input type="hidden" name="code" id="codeInput" value="{{ code|e }}">
+      <button type="submit" name="action" value="run">Run</button>
+      <button type="submit" name="action" value="stop">Stop</button>
+    </form>
+    <div class="main">
+      <div class="editor-pane">
+        <textarea id="editor" name="editor" oninput="syncCode()">{{ code }}</textarea>
+      </div>
+      <div class="output-pane">
+        <pre>{{ output }}</pre>
+      </div>
+    </div>
   </div>
+
   <script>
     function syncCode() {
       document.getElementById('codeInput').value =
