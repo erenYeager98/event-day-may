@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Terminal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      margin: 0; padding: 0;
+      background: #121212; color: #e0e0e0;
+      font-family: monospace; display: flex;
+      flex-direction: column; height: 100vh;
+    }
+    .terminal {
+      flex: 1; padding: 10px;
+      overflow-y: auto; box-sizing: border-box;
+    }
+    .line { white-space: pre-wrap; }
+    .input-area {
+      display: flex; align-items: center;
+      padding: 10px; background: #1a1a1a;
+    }
+    .input-area span {
+      color: #00fff7; margin-right: 5px;
+    }
+    .input-area input {
+      flex: 1; background: #0d0d0d; border: none;
+      color: #e0e0e0; padding: 5px;
+      font-family: monospace; font-size: 1rem;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal" id="history">
+    {% for cwd, cmd, out in history %}
+      <div class="line"><span style="color:#00fff7;">{{ '/' + '/'.join(cwd) if cwd else '/' }}$</span> {{ cmd }}</div>
+      {% if out %}
+        <div class="line">{{ out }}</div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <form method="POST" class="input-area" autofocus onsubmit="scrollDown()">
+    <span>{{ prompt }}$</span>
+    <input name="command" autocomplete="off" autofocus>
+  </form>
+  <script>
+    function scrollDown() {
+      setTimeout(()=> {
+        const h = document.getElementById('history')
+        h.scrollTop = h.scrollHeight
+      }, 10)
+    }
+    scrollDown()
+  </script>
+</body>
+</html>

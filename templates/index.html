@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mystic Gateway</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Enter the Mystic Realm</h1>
+        <form method="POST">
+            <input type="text" name="code" placeholder="Enter secret code..." required>
+            <button type="submit">Unlock</button>
+        </form>
+    </div>
+</body>
+</html>

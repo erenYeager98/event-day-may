@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Python Playground</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: #121212;
+      color: #e0e0e0;
+    }
+    .toolbar {
+      background: #1a1a1a;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      height: 50px;
+      box-sizing: border-box;
+    }
+    .toolbar button {
+      background: #00fff7;
+      color: #0d0d0d;
+      border: none;
+      padding: 8px 16px;
+      margin-right: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .toolbar button:hover {
+      background: #00b3a1;
+      color: #fff;
+    }
+    .pane {
+      display: flex;
+      height: calc(100vh - 50px); /* full height minus toolbar */
+      overflow: hidden;
+    }
+    textarea.editor,
+    pre.output {
+      width: 50%;                /* fixed half width */
+      height: 100%;              /* full pane height */
+      box-sizing: border-box;
+    }
+    textarea.editor {
+      padding: 10px;
+      font-family: monospace;
+      font-size: 1rem;
+      background: #0d0d0d;
+      color: #e0e0e0;
+      border: none;
+      outline: none;
+      resize: none;
+    }
+    pre.output {
+      padding: 10px;
+      margin: 0;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <form class="toolbar" method="POST" onsubmit="syncCode()">
+    <input type="hidden" name="code" id="codeInput" value="{{ code|e }}">
+    <button type="submit" name="action" value="run">Run</button>
+    <button type="submit" name="action" value="stop">Stop</button>
+  </form>
+  <div class="pane">
+    <textarea class="editor" id="editor" oninput="syncCode()">{{ code }}</textarea>
+    <pre class="output">{{ output }}</pre>
+  </div>
+  <script>
+    function syncCode() {
+      document.getElementById('codeInput').value =
+        document.getElementById('editor').value;
+    }
+  </script>
+</body>
+</html>
