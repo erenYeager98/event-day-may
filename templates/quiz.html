@@ -147,7 +147,7 @@
     </form>
 
     <div class="congrats hidden" id="congratsMsg">
-      🎉 Well done, Hacker! 🎉<br/>
+      🎉 Well done! 🎉<br/>
       You have unlocked the final clue.
       <br/>
       <a class="download-btn" href="{{ url_for('static', filename='final_clue.png') }}" download>Download Final Clue</a>
@@ -191,6 +191,9 @@
         document.getElementById("failMsg").classList.remove("hidden");
       }
     });
+  </script>
+  <script>
+    alert("Welcome to the Final Quiz! \n\nAnswer the questions correctly to unlock the final clue.\n\nGood luck!");
   </script>
 </body>
 </html>
