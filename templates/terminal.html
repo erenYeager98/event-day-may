@@ -11,6 +11,21 @@
       font-family: monospace; display: flex;
       flex-direction: column; height: 100vh;
     }
+    .message-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #1a1a1a;
+  color: #00fff7;
+  border: 1px solid #00fff7;
+  padding: 15px;
+  font-size: 0.9rem;
+  max-width: 300px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0,255,247,0.3);
+}
+
     .terminal {
       flex: 1; padding: 10px;
       overflow-y: auto; box-sizing: border-box;
@@ -44,6 +59,13 @@
     <span>{{ prompt }}$</span>
     <input name="command" autocomplete="off" autofocus>
   </form>
+  <div class="message-box">
+    <strong>Welcome to the Level 3 (Web Terminal)!</strong><br>
+    Type <code>'help'</code> for a list of commands.<br><br>
+    Note: This is a simulated terminal environment. Commands may not work as expected.<br>
+    Your task is to find the secret code hidden in the terminal output.<br><br>
+    Good luck!
+  </div>
   <script>
     function scrollDown() {
       setTimeout(()=> {
@@ -53,9 +75,7 @@
     }
     scrollDown()
   </script>
-  <script>
-    alert("Welcome to the Level 3(Web Terminal)! \n\nType 'help' for a list of commands.\n\nNote: This is a simulated terminal environment. Commands may not work as expected.\nYour task is to find the secret code hidden in the terminal output.\n\nGood luck!");
-  </script>
+ 
   
 </body>
 </html>

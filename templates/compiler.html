@@ -87,6 +87,22 @@
       word-break: break-word;
     }
 
+    .message-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #252526;
+  color: #00fff7;
+  border: 1px solid #00fff7;
+  padding: 15px;
+  font-size: 0.9rem;
+  max-width: 320px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0,255,247,0.3);
+}
+
+
   </style>
 </head>
 <body>
@@ -105,16 +121,20 @@
       </div>
     </div>
   </div>
-
+  <div class="message-box">
+    <strong>Welcome to Level 2!</strong><br>
+    You can write and run Python code here.<br><br>
+    <em>Note:</em> This is a simulated environment. Some features may not work as expected.<br>
+    Your task is to find the secret code hidden in the output by fixing the code.<br><br>
+    Good luck!
+  </div>
+  
   <script>
     function syncCode() {
       document.getElementById('codeInput').value =
         document.getElementById('editor').value;
     }
   </script>
-  <script>
-    alert("Welcome to the Level 2! \n\nYou can write and run Python code here.\n\nNote: This is a simulated environment. Some features may not work as expected.\n\nYour task is to find the secret code hidden in the output by fixing the code.\n\nGood luck!");
-  </script>
-  
+
 </body>
 </html>
