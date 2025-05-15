@@ -54,7 +54,11 @@
     scrollDown()
   </script>
   <script>
-    alert("Welcome to the Level 3(Web Terminal)! \n\nType 'help' for a list of commands.\n\nNote: This is a simulated terminal environment. Commands may not work as expected.\nYour task is to find the secret code hidden in the terminal output.\n\nGood luck!");
+    if (!sessionStorage.getItem('alertShown')) {
+      alert("Welcome to the Level 3(Web Terminal)! \n\nType 'help' for a list of commands.\n\nNote: This is a simulated terminal environment. Commands may not work as expected.\nYour task is to find the secret code hidden in the terminal output.\n\nGood luck!");
+      sessionStorage.setItem('alertShown', 'true');
+    }
   </script>
+  
 </body>
 </html>

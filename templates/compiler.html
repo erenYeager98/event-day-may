@@ -113,7 +113,12 @@
     }
   </script>
   <script>
-    alert("Welcome to the Level 2! \n\nYou can write and run Python code here.\n\nNote: This is a simulated environment. Some features may not work as expected.\n\nYour task is to find the secret code hidden in the output by fixing the code.\n\nGood luck!");
-  </script>
+    // Check if the alert has already been shown
+    if (!sessionStorage.getItem('alertShown')) {
+      alert("Welcome to the Level 2! \n\nYou can write and run Python code here.\n\nNote: This is a simulated environment. Some features may not work as expected.\n\nYour task is to find the secret code hidden in the output by fixing the code.\n\nGood luck!");
+      sessionStorage.setItem('alertShown', 'true');
+    }
+</script>
+
 </body>
 </html>

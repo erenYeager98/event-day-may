@@ -14,7 +14,12 @@
         </form>
     </div>
     <script>
-        alert("Welcome to level 1! \nThink and Try harder, you can do it.");
+        // Check if the alert has already been shown
+        if (!sessionStorage.getItem('alertShown')) {
+          alert("Welcome to level 1! \nThink and Try harder, you can do it.");
+          sessionStorage.setItem('alertShown', 'true');
+        }
       </script>
+      
 </body>
 </html>

@@ -192,8 +192,12 @@
       }
     });
   </script>
-  <script>
+<script>
+  // Check if the alert has already been shown
+  if (!sessionStorage.getItem('alertShown')) {
     alert("Welcome to the Final Level (Quiz)! \n\nAnswer the questions correctly to unlock the final clue.\n\nGood luck!");
-  </script>
+    sessionStorage.setItem('alertShown', 'true');
+  }
+</script>
 </body>
 </html>
