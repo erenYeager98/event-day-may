@@ -75,7 +75,7 @@ for i in range(1, 41):
     FS[dirname] = {}
 
 # Inject the final clue in one random directory
-FS["dir_27"]["final_round.txt"] = "Go to final round through this url: http://54.197.16.163/quiz"
+FS["dir_27"]["final_round.txt"] = "Go to final round through this url: http://54.175.243.228/quiz"
 FS ["dir_14"]["secret.txt"] = "You got fooled! Try harder."
 FS["dir_16"]["secret2.txt"] = "You got fooled again! Try harderrr."
 FS["dir_19"]["secret3.txt"] = "I would have given up if i were you lol."
