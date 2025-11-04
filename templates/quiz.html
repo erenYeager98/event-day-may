@@ -1,203 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Final Quiz</title>
+  <meta charset="UTF-8">
+  <title>Logic Circuit Quiz</title>
   <style>
     body {
-      background-color: #0d0d0d;
-      color: #e0e0e0;
-      font-family: 'Courier New', Courier, monospace;
-      padding: 30px;
-      margin: 0;
+      background-color: #0b0c10;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    h1 {
-      color: #39ff14;
-      text-align: center;
-      text-shadow: 0 0 10px #39ff14;
-    }
-
-    .quiz-container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px #111;
-    }
-
-    .question {
+    img {
+      border: 3px solid #66fcf1;
+      border-radius: 12px;
+      box-shadow: 0 0 25px #45a29e;
+      max-width: 80%;
+      height: auto;
       margin-bottom: 20px;
     }
-
-    label {
-      display: block;
-      margin-top: 8px;
-    }
-
     input[type="text"] {
-      width: 100%;
       padding: 10px;
-      background: #111;
-      border: 1px solid #444;
-      color: #39ff14;
-      border-radius: 4px;
-    }
-
-    button {
-      background: #39ff14;
-      color: #000;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 5px;
-      box-shadow: 0 0 8px #39ff14;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .congrats {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 24px;
-      color: #39ff14;
-      animation: glow 1.5s infinite alternate;
-    }
-
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 5px #39ff14;
-      }
-      to {
-        text-shadow: 0 0 20px #39ff14;
-      }
-    }
-
-    .download-btn {
-      display: inline-block;
-      background: #0f0;
-      color: #000;
-      padding: 10px 20px;
-      font-weight: bold;
-      text-decoration: none;
+      font-size: 18px;
       border-radius: 6px;
-      margin-top: 20px;
-      box-shadow: 0 0 10px #0f0;
-    }
-
-    .error-msg {
-      color: #ff4444;
+      border: none;
+      outline: none;
+      width: 300px;
       text-align: center;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #45a29e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #66fcf1;
+      color: #0b0c10;
+    }
+    .message {
       margin-top: 20px;
+      font-size: 20px;
+      color: #66fcf1;
     }
   </style>
 </head>
 <body>
-  <h1>Decrypt the Final Path</h1>
-  <div class="quiz-container">
-    <form id="quizForm">
-      <div class="question">
-        <label>1. What does DNS stand for?</label>
-        <input type="text" name="q1" />
-      </div>
-      <div class="question">
-        <label>2. Port number used for HTTPS?</label>
-        <input type="text" name="q2" />
-      </div>
-      <div class="question">
-        <label>3. Expand SQL?</label>
-        <input type="text" name="q3" />
-      </div>
-      <div class="question">
-        <label>4. Command to list files in Linux?</label>
-        <input type="text" name="q4" />
-      </div>
-      <div class="question">
-        <label>5. What is the default subnet mask for a Class C IP?</label>
-        <input type="text" name="q5" />
-      </div>
-      <div class="question">
-        <label>6. Name of protocol used to send emails?</label>
-        <input type="text" name="q6" />
-      </div>
-      <div class="question">
-        <label>7. What’s the full form of IP?</label>
-        <input type="text" name="q7" />
-      </div>
-      <div class="question">
-        <label>8. Command to check current directory in Linux?</label>
-        <input type="text" name="q8" />
-      </div>
-      <div class="question">
-        <label>9. Full form of HTML?</label>
-        <input type="text" name="q9" />
-      </div>
-      <div class="question">
-        <label>10. Default port of SSH?</label>
-        <input type="text" name="q10" />
-      </div>
-      <button type="submit">Submit Answers</button>
-    </form>
-
-    <div class="congrats hidden" id="congratsMsg">
-      🎉 Well done! 🎉<br/>
-      You have unlocked the final clue.
-      <br/>
-      <a class="download-btn" href="{{ url_for('static', filename='final_clue.png') }}" download>Download Final Clue</a>
-    </div>
-
-    <div class="error-msg hidden" id="failMsg">
-      Hmm... You're close, but not quite there.<br/>
-      Refresh and try again. We believe in you!
-    </div>
-  </div>
-
-  <script>
-    const answers = {
-      q1: "domain name system",
-      q2: "443",
-      q3: "structured query language",
-      q4: "ls",
-      q5: "255.255.255.0",
-      q6: "smtp",
-      q7: "internet protocol",
-      q8: "pwd",
-      q9: "hypertext markup language",
-      q10: "22"
-    };
-
-    document.getElementById("quizForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      let score = 0;
-      const formData = new FormData(this);
-      for (let key in answers) {
-        const userAnswer = (formData.get(key) || "").toLowerCase().trim();
-        if (userAnswer === answers[key]) {
-          score++;
-        }
-      }
-
-      if (score >= 7) {
-        document.getElementById("quizForm").classList.add("hidden");
-        document.getElementById("congratsMsg").classList.remove("hidden");
-      } else {
-        document.getElementById("failMsg").classList.remove("hidden");
-      }
-    });
-  </script>
-  <div class="message-box">
-    <strong>Welcome to the Final Level (Quiz)!</strong><br><br>
-    Answer the questions correctly to unlock the final clue.<br><br>
-    Good luck!
-  </div>
+  <h2>🧩 Logic Circuit Quiz</h2>
+  <img src="{{ url_for('static', filename='logic_quiz.jpg') }}" alt="Logic Circuit Diagram">
   
-  
+  <form method="POST">
+    <input type="text" name="answer" placeholder="Enter your answer here" required>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  {% if message %}
+  <div class="message">{{ message }}</div>
+  {% endif %}
 </body>
 </html>

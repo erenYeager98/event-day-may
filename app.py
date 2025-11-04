@@ -26,9 +26,19 @@ def index():
             return redirect(url_for('compiler'))
     return render_template('index.html')
 
-@app.route('/quiz', methods=['GET'])
+@app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-    return render_template('quiz.html')
+    message = ""
+    if request.method == 'POST':
+        answer = request.form.get('answer', '').strip()
+        if answer == "djfajdiu348d8r":
+            message = "🎉 Congratulations! Proceeding to next round..."
+            return redirect(url_for('compiler'))  # or next quiz step
+        else:
+            message = "Incorrect answer. Try again!"
+
+    return render_template('quiz.html', message=message)
+
 
 
 @app.route('/compiler', methods=['GET', 'POST'])
