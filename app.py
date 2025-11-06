@@ -87,7 +87,7 @@ def compiler():
             try:
                 # launch process
                 running_proc = subprocess.Popen(
-                    ['python', tmp],
+                    ['python3', tmp],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
                     text=True
