@@ -1,96 +1,118 @@
-/* body {
-    background-color: #0d0d0d;
-    color: #e0e0e0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+/* General "Hacker" Theme - V2 (More Aesthetic) */
+
+/* Import a cool font, 'Roboto Mono' is a great fit */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap');
+
+html {
+    scroll-behavior: smooth;
 }
 
-.container {
-    text-align: center;
-    animation: fadeIn 2s ease;
-}
-
-.title {
-    font-size: 3.5rem;
-    color: #00fff7;
-    text-shadow: 0 0 10px #00fff7, 0 0 20px #00b3a1;
-    margin-bottom: 30px;
-}
-
-form input {
-    padding: 12px 20px;
-    width: 250px;
-    border: none;
-    border-radius: 5px;
-    margin-right: 10px;
-    background-color: #1a1a1a;
-    color: #fff;
-    outline: none;
-    font-size: 1rem;
-    box-shadow: 0 0 10px #00fff7;
-}
-
-form button {
-    padding: 12px 20px;
-    background-color: #00fff7;
-    color: #0d0d0d;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-form button:hover {
-    background-color: #00b3a1;
-    color: white;
-    box-shadow: 0 0 20px #00fff7;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-} */
-
-/* General "Hacker" Theme */
 body {
-    background-color: #0b0c10;
+    /* Subtle animated gradient background */
+    background: linear-gradient(45deg, #0b0c10, #1f2833, #0b0c10);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+
     color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    font-family: 'Courier New', monospace;
+    font-family: 'Roboto Mono', 'Courier New', monospace; /* Updated font */
     text-align: center;
     padding: 20px;
     box-sizing: border-box;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Keyframe for the background gradient */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .container {
     width: 100%;
     max-width: 600px;
-    background: #1f2833;
+    background: rgba(31, 40, 51, 0.9); /* Slightly transparent */
     border: 2px solid #66fcf1;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 0 25px rgba(102, 252, 241, 0.3);
+    
+    /* Fade-in and scale-up animation */
+    animation: fadeInContainer 1s ease-out forwards;
+    opacity: 0;
+    transform: scale(0.98);
+    
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
+
+.container:hover {
+    box-shadow: 0 0 35px rgba(102, 252, 241, 0.5);
+    transform: scale(1.01);
+}
+
+@keyframes fadeInContainer {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 
 .title {
     color: #66fcf1;
     margin-bottom: 20px;
+    /* Pulsing glow effect */
+    text-shadow: 0 0 8px rgba(102, 252, 241, 0.7),
+                 0 0 16px rgba(102, 252, 241, 0.5);
+    animation: pulseGlow 2.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    from {
+        text-shadow: 0 0 8px rgba(102, 252, 241, 0.7),
+                     0 0 16px rgba(102, 252, 241, 0.5);
+    }
+    to {
+        text-shadow: 0 0 16px rgba(102, 252, 241, 1),
+                     0 0 32px rgba(102, 252, 241, 0.7);
+    }
 }
 
 p {
     color: #c5c6c7;
     font-size: 1.1rem;
     line-height: 1.6;
+    font-weight: 300; /* Lighter font weight */
 }
+
+/* --- Add this new style for the message box --- */
+.message-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(31, 40, 51, 0.9);
+    color: #66fcf1;
+    border: 1px solid #45a29e;
+    padding: 15px;
+    font-size: 0.9rem;
+    max-width: 320px;
+    border-radius: 8px;
+    z-index: 1000;
+    box-shadow: 0 0 15px rgba(102, 252, 241, 0.3);
+    /* Fade-in animation */
+    animation: fadeInContainer 1s ease-out forwards;
+    opacity: 0;
+}
+/* ------------------------------------------- */
 
 input[type="text"],
 input[type="password"] {
@@ -104,7 +126,15 @@ input[type="password"] {
     text-align: center;
     background: #0b0c10;
     color: #ffffff;
-    font-family: 'Courier New', monospace;
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    /* Smooth transitions for focus */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #66fcf1;
+    box-shadow: 0 0 15px rgba(102, 252, 241, 0.5);
 }
 
 button {
@@ -117,12 +147,23 @@ button {
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    /* Smoother transitions for all properties */
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                transform 0.2s ease,
+                box-shadow 0.3s ease;
 }
 
 button:hover {
     background-color: #66fcf1;
     color: #0b0c10;
+    /* "Lift" effect on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(102, 252, 241, 0.2);
+}
+
+button:active {
+    transform: translateY(0);
 }
 
 .error-message {
@@ -130,6 +171,10 @@ button:hover {
     font-size: 1.1rem;
     color: #ff4848;
     font-weight: bold;
+    background: rgba(255, 72, 72, 0.1);
+    border: 1px solid #ff4848;
+    padding: 10px;
+    border-radius: 6px;
 }
 
 .download-link {
@@ -141,16 +186,24 @@ button:hover {
     font-weight: bold;
     border-radius: 6px;
     margin-top: 10px;
-    transition: background-color 0.3s;
+    /* Re-using button transitions */
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                transform 0.2s ease,
+                box-shadow 0.3s ease;
 }
 
 .download-link:hover {
     background: #c5c6c7;
+    color: #0b0c10;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(197, 198, 199, 0.2);
 }
 
 audio {
     margin-top: 15px;
     width: 100%;
+    border-radius: 6px;
 }
 
 pre {
@@ -161,7 +214,132 @@ pre {
     text-align: left;
     white-space: pre-wrap;
     word-break: break-all;
+    border: 1px dashed #45a29e;
 }
+
+/* --- Level 4: Logic Quiz Split Pane --- */
+
+/* This style applies to the <body> of quiz.html */
+.split-layout {
+    flex-direction: row; /* Override the default column */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    overflow: hidden; /* Hide overflow during animation */
+}
+
+/* This is the new main container for the quiz page */
+.quiz-container {
+    display: flex;
+    flex-direction: row;
+    /* --- MODIFIED --- */
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    /* --- END MODIFIED --- */
+    overflow: hidden; /* Ensure panes stay within rounded corners */
+}
+
+.quiz-pane {
+    padding: 40px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-pane {
+    flex: 1;
+    align-items: center;
+    border-right: 2px solid #45a29e;
+    /* Animation: */
+    animation: slideInLeft 1s ease-out forwards;
+    opacity: 0;
+    /* --- ADDED --- */
+    background: #0b0c10; 
+}
+
+.right-pane {
+    flex: 1;
+    align-items: flex-start; /* Align content to the left */
+    text-align: left;
+    /* Staggered animation: */
+    animation: slideInRight 1s ease-out 0.3s forwards;
+    opacity: 0;
+    /* --- ADDED --- */
+    background: #1f2833;
+}
+
+.right-pane .title {
+    text-align: left;
+    font-size: 2.5rem; /* Slightly smaller title for the pane */
+}
+
+.right-pane p {
+    font-size: 1rem;
+    margin-bottom: 25px;
+}
+
+.right-pane form {
+    width: 100%;
+}
+
+/* Override default input to fill the pane */
+.right-pane input[type="text"] {
+    width: 100%;
+    max-width: none;
+    text-align: left;
+    padding: 12px 15px;
+}
+
+.right-pane button {
+    margin-top: 20px;
+    padding: 12px 30px;
+}
+
+/* Styles for the logic gate image */
+#logic-image {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain; /* Ensure image scales nicely */
+    border: none;
+    box-shadow: none;
+    border-radius: 8px;
+}
+
+/* Keyframe animations for the panes */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+/* --- End of Level 4 Styles --- */
+
 
 /* --- Level 6: Memory Game --- */
 #game-board {
@@ -178,17 +356,29 @@ pre {
     border: 3px solid #1c2541;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.1s, box-shadow 0.1s;
+    /* Smooth transitions for all properties */
+    transition: background-color 0.1s ease, 
+                box-shadow 0.1s ease,
+                transform 0.1s ease;
 }
 
 .pad:hover {
     background: #5bc0be;
+    transform: scale(1.03); /* Slight scale on hover */
 }
 
 .pad.active {
     background: #66fcf1;
-    box-shadow: 0 0 25px #66fcf1;
+    box-shadow: 0 0 25px #66fcf1, 0 0 40px #66fcf1; /* Brighter glow */
     transform: scale(1.05);
+    /* Add a subtle flicker effect */
+    animation: activeFlicker 0.3s;
+}
+
+@keyframes activeFlicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
 }
 
 .hidden {

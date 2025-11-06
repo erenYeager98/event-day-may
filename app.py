@@ -10,24 +10,31 @@ app.secret_key = 'your-very-secret-random-key-here'
 # (You can change these to whatever you want)
 LEVEL_1_MORSE_CODE = "Morse Code is Fun"
 LEVEL_4_LOGIC_FLAG = "djfajdiu348d8r"
-LEVEL_5_PASSWORD = "CAESAR_WAS_HERE" # The password from the Level 5 Caesar shift
-LEVEL_6_MEMORY_FLAG = "CLUE_GOES_TO_LEVEL_7_SONIC" # Revealed after winning memory game
-LEVEL_7_AUDIO_FLAG = "HIDDEN_IN_THE_NOISE" # The flag hidden in the audio file
-LEVEL_8_PCAP_FLAG = "TCP_STREAM_SECRET" # The flag found in the pcap file
+LEVEL_5_PASSWORD = "you_are_the_key_to_this_puzzle" # The password from the Level 5 Caesar shift
+LEVEL_6_MEMORY_FLAG = "keep in mind that we will ask for these flags at the end: 10v3_Y0R$3lF" # Revealed after winning memory game
+LEVEL_7_AUDIO_FLAG = "life_is_easy_do_not_compicate_it" # The flag hidden in the audio file
+LEVEL_8_PCAP_FLAG = "Y0u_Re4lly_Came_Th1s_F4r_Y0u_Des3rve_A_Fl4g" # The flag found in the pcap file
 # ---------------------------------
 
 
 DEFAULT_CODE = """
-import base64
 
-encoded_str = "aHR0cDovLzU0LjE5Ny4xNi4xNjMvdGVybWluYWw="
+encoded = "dSIifSFHPDxvI3RvfCN7Iic7ciByeydybnRyIDpxeDt5diRyPCJyIHp2e255"
 
-# Decode it
-# Hmm, looks like the import is missing...
-decoded_bytes = base64.b64decode(encoded_str)
-decoded_str = decoded_bytes.decode('utf-8')
+decoded_bytes = base64.b64decode(encode)
+rot_text = decoded_bytes.decode('utf-8')
 
-print("Secret:", decoded_str)
+def rot_n(s, n=13):
+    out = []
+    for ch in s:
+        if 32 <= ord(ch) <= 126:
+            out.append(chr((ord(ch) - 32 - n) % 95 + 32)) 
+        else:
+            out.append(ch)
+    return ''.join(out)
+
+flag = rot_(rot_text, 13)
+print("FLAG:", fla)
 """
 
 # keep track of the current running process
@@ -41,7 +48,7 @@ for i in range(1, 41):
     FS[dirname] = {}
 
 # Inject the final clue in one random directory
-FS["dir_27"]["final_round.txt"] = "Go to final round through this url: http://54.175.243.228/quiz"
+FS["dir_27"]["secret96.txt"] = "you might want to go to the next level.?? visit  bugbounty.erenyeager-dk.live/logic_gate  "
 FS ["dir_14"]["secret.txt"] = "You got fooled! Try harder."
 FS["dir_16"]["secret2.txt"] = "You got fooled again! Try harderrr."
 FS["dir_19"]["secret3.txt"] = "I would have given up if i were you lol."
@@ -176,7 +183,7 @@ def terminal():
     return render_template('terminal.html', history=history, prompt=prompt)
 
 # --- LEVEL 4: LOGIC QUIZ ---
-@app.route('/quiz', methods=['GET', 'POST'])
+@app.route('/logic_gate', methods=['GET', 'POST'])
 def quiz():
     message = ""
     if request.method == 'POST':

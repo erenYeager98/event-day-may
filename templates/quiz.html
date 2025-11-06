@@ -2,68 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Logic Circuit Quiz</title>
-  <style>
-    body {
-      background-color: #0b0c10;
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    img {
-      border: 3px solid #66fcf1;
-      border-radius: 12px;
-      box-shadow: 0 0 25px #45a29e;
-      max-width: 80%;
-      height: auto;
-      margin-bottom: 20px;
-    }
-    input[type="text"] {
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 6px;
-      border: none;
-      outline: none;
-      width: 300px;
-      text-align: center;
-    }
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #45a29e;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #66fcf1;
-      color: #0b0c10;
-    }
-    .message {
-      margin-top: 20px;
-      font-size: 20px;
-      color: #66fcf1;
-    }
-  </style>
+  <title>Level 4: Logic Circuit Quiz</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-  <h2>🧩 Logic Circuit Quiz</h2>
-  <img src="{{ url_for('static', filename='logic_quiz.jpg') }}" alt="Logic Circuit Diagram">
+<body class="split-layout">
   
-  <form method="POST">
-    <input type="text" name="answer" placeholder="Enter your answer here" required>
-    <br>
-    <button type="submit">Submit</button>
-  </form>
+  <div class="quiz-container">
+    
+    <div class="quiz-pane left-pane">
+      <img id="logic-image" src="{{ url_for('static', filename='logic_gate.png') }}" alt="Logic Circuit Diagram">
+    </div>
+    
+    <div class="quiz-pane right-pane">
+      <h2 class="title">Level 4 Logic Gate</h2>
+      <p>Analyze the logic circuit. What is the final output flag given the inputs?</p>
+      
+      <form method="POST">
+        <label for="answer-input" style="display: none;">Answer</label>
+        <input id="answer-input" type="text" name="answer" placeholder="Enter your answer here" required>
+        <br>
+        <button type="submit">Submit</button>
+      </form>
+    
+      {% if message %}
+        {% if 'Incorrect' in message or 'Try again' in message %}
+          <div class="error-message">{{ message }}</div>
+        {% else %}
+          <div class="message" style="color: #66fcf1; font-size: 1.1rem; margin-top: 25px;">{{ message }}</div>
+        {% endif %}
+      {% endif %}
 
-  {% if message %}
-  <div class="message">{{ message }}</div>
-  {% endif %}
+    </div>
+
+  </div>
+
 </body>
 </html>

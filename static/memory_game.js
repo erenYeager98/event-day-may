@@ -4,19 +4,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const flagRewardEl = document.getElementById('flag-reward');
     const gameBoardEl = document.getElementById('game-board');
 
+    // --- Difficulty Tweaks ---
+    // Longer sequences
     const levels = {
-        easy: 3,
-        medium: 5,
-        hard: 7
+        easy: 4,
+        medium: 8,
+        hard: 14 // Original was 3, 5, 7
     };
+    
+    // Faster speeds (in milliseconds)
+    const speeds = {
+        easy: {
+            flashDelay: 400,  // How long the pad stays lit
+            nextPadDelay: 150, // Pause between pads
+            nextRoundDelay: 1000 // Pause before player's turn
+        },
+        medium: {
+            flashDelay: 300,
+            nextPadDelay: 100,
+            nextRoundDelay: 800
+        },
+        hard: {
+            flashDelay: 200,
+            nextPadDelay: 75,
+            nextRoundDelay: 600
+        }
+    };
+    // -------------------------
     
     let currentLevel = 'easy';
     let sequence = [];
     let playerSequence = [];
     let gameActive = false;
-    const flashDelay = 400; // ms to show a pad lit up
-    const nextRoundDelay = 1000; // ms after sequence before player can go
 
+    /**
+     * Generates a new random sequence based on the current level's length.
+     */
     function generateSequence() {
         sequence = [];
         const levelLength = levels[currentLevel];
@@ -25,37 +48,56 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Lights up a specific pad for a dynamic duration.
+     * @param {number} padId - The ID of the pad to light (1-4).
+     */
     function lightUpPad(padId) {
         const pad = document.querySelector(`.pad[data-id="${padId}"]`);
+        const { flashDelay } = speeds[currentLevel]; // Get dynamic speed
+        
         pad.classList.add('active');
         setTimeout(() => {
             pad.classList.remove('active');
         }, flashDelay);
     }
 
+    /**
+     * Plays the generated sequence for the player, using dynamic speeds.
+     */
     async function playSequence() {
         gameActive = false;
         messageEl.textContent = `Level: ${currentLevel}. Watch...`;
         
+        const { nextPadDelay, flashDelay, nextRoundDelay } = speeds[currentLevel];
+
         // Wait a moment before starting
         await new Promise(res => setTimeout(res, nextRoundDelay));
 
         for (const padId of sequence) {
-            await new Promise(res => setTimeout(res, flashDelay + 100));
+            // Wait for the pause *between* pads
+            await new Promise(res => setTimeout(res, nextPadDelay));
             lightUpPad(padId);
+            // Wait for the pad to finish flashing before starting the next pause
+            await new Promise(res => setTimeout(res, flashDelay));
         }
 
-        await new Promise(res => setTimeout(res, flashDelay));
+        // Wait a final moment before player's turn
+        await new Promise(res => setTimeout(res, 300)); 
         messageEl.textContent = "Your turn...";
         gameActive = true;
         playerSequence = [];
     }
 
+    /**
+     * Handles the player clicking on a pad.
+     * @param {Event} e - The click event.
+     */
     function handlePadClick(e) {
         if (!gameActive) return;
 
         const clickedPadId = parseInt(e.target.dataset.id);
-        lightUpPad(clickedPadId);
+        lightUpPad(clickedPadId); // Light up player's click
         playerSequence.push(clickedPadId);
 
         // Check if the click was correct
@@ -64,17 +106,20 @@ document.addEventListener('DOMContentLoaded', () => {
             // Wrong!
             messageEl.textContent = "Wrong! Restarting level...";
             gameActive = false;
-            setTimeout(startGame, 2000);
+            setTimeout(startGame, 2000); // Restart this level
             return;
         }
 
         // Check if player has finished the sequence
         if (playerSequence.length === sequence.length) {
             gameActive = false;
-            setTimeout(handleLevelWin, 500);
+            setTimeout(handleLevelWin, 500); // Move to next level
         }
     }
 
+    /**
+     * Handles the logic for winning a level and progressing.
+     */
     function handleLevelWin() {
         if (currentLevel === 'easy') {
             currentLevel = 'medium';
@@ -92,13 +137,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Resets sequences and starts the game for the current level.
+     */
     function startGame() {
         generateSequence();
         playSequence();
     }
 
+    // Attach click listeners to all pads
     pads.forEach(pad => pad.addEventListener('click', handlePadClick));
 
-    // Start the first game
+    // Start the first game on page load
     startGame();
 });
