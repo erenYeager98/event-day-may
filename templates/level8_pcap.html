@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Level 8: Network Forensics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Level 8: Packet Whisperer</h1>
+        <p>Analyze this packet capture. You might find the clue to the next level.</p>
+        <p>(Hint: Follow the conversation.)</p>
+
+        <a class="download-link" href="{{ url_for('challenge_files', filename='challenge_capture.pcap') }}" download>
+            Download challenge_capture.pcap
+        </a>
+
+        <form method="POST">
+            <input type="text" name="flag" placeholder="Enter flag..." required>
+            <button type="submit">Submit Flag</button>
+        </form>
+
+        {% if message %}
+            <p class="error-message">{{ message }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,46 +1,61 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-import subprocess, os
+from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
+import subprocess
+import os
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
-app.secret_key = 'replace-with-a-secure-random-key'
+# IMPORTANT: Change this secret key!
+app.secret_key = 'your-very-secret-random-key-here'
 
-SECRET_CODE = "Morse Code is Fun"
+# --- SECRET FLAGS & PASSWORDS ---
+# (You can change these to whatever you want)
+LEVEL_1_MORSE_CODE = "Morse Code is Fun"
+LEVEL_4_LOGIC_FLAG = "djfajdiu348d8r"
+LEVEL_5_PASSWORD = "CAESAR_WAS_HERE" # The password from the Level 5 Caesar shift
+LEVEL_6_MEMORY_FLAG = "CLUE_GOES_TO_LEVEL_7_SONIC" # Revealed after winning memory game
+LEVEL_7_AUDIO_FLAG = "HIDDEN_IN_THE_NOISE" # The flag hidden in the audio file
+LEVEL_8_PCAP_FLAG = "TCP_STREAM_SECRET" # The flag found in the pcap file
+# ---------------------------------
+
+
 DEFAULT_CODE = """
+import base64
+
 encoded_str = "aHR0cDovLzU0LjE5Ny4xNi4xNjMvdGVybWluYWw="
 
 # Decode it
+# Hmm, looks like the import is missing...
 decoded_bytes = base64.b64decode(encoded_str)
 decoded_str = decoded_bytes.decode('utf-8')
 
 print("Secret:", decoded_str)
-
 """
 
 # keep track of the current running process
 running_proc = None
 
+# A dummy filesystem tree
+FS = {}
+# Create 40 dummy directories
+for i in range(1, 41):
+    dirname = f"dir_{i}"
+    FS[dirname] = {}
+
+# Inject the final clue in one random directory
+FS["dir_27"]["final_round.txt"] = "Go to final round through this url: http://54.175.243.228/quiz"
+FS ["dir_14"]["secret.txt"] = "You got fooled! Try harder."
+FS["dir_16"]["secret2.txt"] = "You got fooled again! Try harderrr."
+FS["dir_19"]["secret3.txt"] = "I would have given up if i were you lol."
+
+
+# --- LEVEL 1: MORSE CODE ---
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        if request.form.get('code', '').strip().lower() == SECRET_CODE.lower():
+        if request.form.get('code', '').strip().lower() == LEVEL_1_MORSE_CODE.lower():
             return redirect(url_for('compiler'))
     return render_template('index.html')
 
-@app.route('/quiz', methods=['GET', 'POST'])
-def quiz():
-    message = ""
-    if request.method == 'POST':
-        answer = request.form.get('answer', '').strip()
-        if answer == "djfajdiu348d8r":
-            message = "🎉 Congratulations! Proceeding to next round..."
-            return redirect(url_for('compiler'))  # or next quiz step
-        else:
-            message = "Incorrect answer. Try again!"
-
-    return render_template('quiz.html', message=message)
-
-
-
+# --- LEVEL 2: PYTHON DEBUGGING ---
 @app.route('/compiler', methods=['GET', 'POST'])
 def compiler():
     global running_proc
@@ -67,36 +82,18 @@ def compiler():
                 out, _ = running_proc.communicate(timeout=5)
                 output = out
             except subprocess.TimeoutExpired:
-                running_proc.kill()
+                if running_proc:
+                    running_proc.kill()
                 output = 'Error: Execution timed out.'
+            except Exception as e:
+                output = str(e)
         elif action == 'stop':
             if running_proc and running_proc.poll() is None:
                 running_proc.kill()
                 output = 'Process stopped by user.'
     return render_template('compiler.html', code=code, output=output)
 
-
-# A dummy filesystem tree
-FS = {}
-
-# Create 40 dummy directories
-for i in range(1, 41):
-    dirname = f"dir_{i}"
-    FS[dirname] = {}
-
-# Inject the final clue in one random directory
-FS["dir_27"]["final_round.txt"] = "Go to final round through this url: http://54.175.243.228/quiz"
-FS ["dir_14"]["secret.txt"] = "You got fooled! Try harder."
-FS["dir_16"]["secret2.txt"] = "You got fooled again! Try harderrr."
-FS["dir_19"]["secret3.txt"] = "I would have given up if i were you lol."
-
-def resolve_path(cwd):
-    """Return the FS subtree at cwd."""
-    node = FS
-    for part in cwd:
-        node = node.get(part, {})
-    return node
-
+# --- LEVEL 3: WEB TERMINAL ---
 @app.route('/terminal', methods=['GET', 'POST'])
 def terminal():
     if 'cwd' not in session:
@@ -106,9 +103,9 @@ def terminal():
     history = session['history']
     output = ""
 
-    def resolve_path(cwd):
+    def resolve_path(cwd_list):
         node = FS
-        for part in cwd:
+        for part in cwd_list:
             node = node.get(part, {})
         return node
 
@@ -178,6 +175,82 @@ def terminal():
     prompt = '/' + '/'.join(cwd) if cwd else '/'
     return render_template('terminal.html', history=history, prompt=prompt)
 
+# --- LEVEL 4: LOGIC QUIZ ---
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+    message = ""
+    if request.method == 'POST':
+        answer = request.form.get('answer', '').strip()
+        if answer == LEVEL_4_LOGIC_FLAG:
+            # **MODIFIED**
+            # Instead of redirecting, show the clue for the offline Level 5
+            message = "🎉 Congratulations! CLUE: Find the QR code hidden in the room."
+        else:
+            message = "Incorrect answer. Try again!"
+
+    return render_template('quiz.html', message=message)
+
+# --- LEVEL 5 (GATE) -> LEVEL 6 (GAME) ---
+# This is the page the Level 5 QR/Caesar clue redirects to.
+@app.route('/level6_gate', methods=['GET', 'POST'])
+def level6_gate():
+    error = None
+    if request.method == 'POST':
+        if request.form.get('password') == LEVEL_5_PASSWORD:
+            session['level6_unlocked'] = True
+            return redirect(url_for('level6_memory_game'))
+        else:
+            error = "Incorrect Password. Try again."
+    return render_template('level5_gate.html', error=error)
+
+@app.route('/level6_memory_game')
+def level6_memory_game():
+    # Ensure user passed the password gate
+    if not session.get('level6_unlocked'):
+        return redirect(url_for('level6_gate'))
+    return render_template('level6_memory.html', flag=LEVEL_6_MEMORY_FLAG)
+
+# --- LEVEL 7: AUDIO CHALLENGE ---
+@app.route('/level7_audio', methods=['GET', 'POST'])
+def level7_audio():
+    message = ""
+    if request.method == 'POST':
+        if request.form.get('flag', '').strip() == LEVEL_7_AUDIO_FLAG:
+            session['level7_unlocked'] = True
+            return redirect(url_for('level8_pcap'))
+        else:
+            message = "Incorrect Flag. Analyze the audio again."
+    return render_template('level7_audio.html', message=message)
+
+# --- LEVEL 8: PCAP CHALLENGE ---
+@app.route('/level8_pcap', methods=['GET', 'POST'])
+def level8_pcap():
+    message = ""
+    if request.method == 'POST':
+        if request.form.get('flag', '').strip() == LEVEL_8_PCAP_FLAG:
+            session['level8_unlocked'] = True
+            return redirect(url_for('final_round'))
+        else:
+            message = "Incorrect Flag. Check those packets again."
+    return render_template('level8_pcap.html', message=message)
+
+# --- FINAL ROUND ---
+@app.route('/final_round')
+def final_round():
+    # Ensure user passed the final challenge
+    if not session.get('level8_unlocked'):
+        return redirect(url_for('level8_pcap'))
+    return render_template('final_round.html')
+
+# --- Route to serve challenge files ---
+@app.route('/challenge_files/<filename>')
+def challenge_files(filename):
+    # This serves files from your 'static' folder
+    return send_from_directory(
+        os.path.join(app.root_path, 'static'),
+        filename,
+        as_attachment=True
+    )
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0', port=80)
+    app.run(debug=True, host='0.0.0.0', port=80)

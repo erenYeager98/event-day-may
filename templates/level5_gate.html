@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Level 6 Gateway</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Level 6 Gateway</h1>
+        <p>Enter the password from Level 5 to proceed.</p>
+        <form method="POST">
+            <input type="password" name="password" placeholder="Enter password..." required>
+            <button type="submit">Unlock</button>
+        </form>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

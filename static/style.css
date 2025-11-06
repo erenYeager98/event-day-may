@@ -1,4 +1,4 @@
-body {
+/* body {
     background-color: #0d0d0d;
     color: #e0e0e0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -54,4 +54,143 @@ form button:hover {
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
+} */
+
+/* General "Hacker" Theme */
+body {
+    background-color: #0b0c10;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background: #1f2833;
+    border: 2px solid #66fcf1;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 0 25px rgba(102, 252, 241, 0.3);
+}
+
+.title {
+    color: #66fcf1;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #c5c6c7;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 6px;
+    border: 2px solid #45a29e;
+    outline: none;
+    width: 80%;
+    max-width: 350px;
+    text-align: center;
+    background: #0b0c10;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 25px;
+    background-color: #45a29e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #66fcf1;
+    color: #0b0c10;
+}
+
+.error-message {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    color: #ff4848;
+    font-weight: bold;
+}
+
+.download-link {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #66fcf1;
+    color: #0b0c10;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.download-link:hover {
+    background: #c5c6c7;
+}
+
+audio {
+    margin-top: 15px;
+    width: 100%;
+}
+
+pre {
+    background: #0b0c10;
+    color: #66fcf1;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* --- Level 6: Memory Game --- */
+#game-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 300px;
+    height: 300px;
+    margin: 30px auto;
+}
+
+.pad {
+    background: #3a506b;
+    border: 3px solid #1c2541;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.1s, box-shadow 0.1s;
+}
+
+.pad:hover {
+    background: #5bc0be;
+}
+
+.pad.active {
+    background: #66fcf1;
+    box-shadow: 0 0 25px #66fcf1;
+    transform: scale(1.05);
+}
+
+.hidden {
+    display: none;
 }

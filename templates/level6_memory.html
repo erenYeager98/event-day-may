@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Level 6: Memory Challenge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Level 6: Memory Challenge</h1>
+        <p id="message">Level: Easy. Watch the sequence.</p>
+        
+        <div id="game-board">
+            <div class="pad" id="pad-1" data-id="1"></div>
+            <div class="pad" id="pad-2" data-id="2"></div>
+            <div class="pad" id="pad-3" data-id="3"></div>
+            <div class="pad" id="pad-4" data-id="4"></div>
+        </div>
+
+        <div id="flag-reward" class="hidden">
+            <h2>Congratulations! You passed Level 6!</h2>
+            <p>Your clue for the next level is:</p>
+            <pre>{{ flag }}</pre>
+            <p>Go to: <strong>/level7_audio</strong></p>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='memory_game.js') }}"></script>
+</body>
+</html>

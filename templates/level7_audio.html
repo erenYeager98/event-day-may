@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Level 7: Sonic Secrets</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Level 7: Hidden in Plain Sound</h1>
+        <p>Analyze this audio file. The flag is hidden within.</p>
+        <p>(Hint: Sometimes, secrets are better *seen* than heard.)</p>
+        
+        <audio controls src="{{ url_for('static', filename='challenge_audio.mp3') }}">
+            Your browser does not support the audio element.
+        </audio>
+        <br><br>
+        <a class="download-link" href="{{ url_for('challenge_files', filename='challenge_audio.mp3') }}" download>
+            Download challenge_audio.mp3
+        </a>
+
+        <form method="POST">
+            <input type="text" name="flag" placeholder="Enter flag..." required>
+            <button type="submit">Submit Flag</button>
+        </form>
+
+        {% if message %}
+            <p class="error-message">{{ message }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
