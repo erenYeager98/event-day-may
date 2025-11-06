@@ -1,10 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 import subprocess
 import os
+from whitenoise import WhiteNoise  # <--- IMPORT IT HERE
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 # IMPORTANT: Change this secret key!
 app.secret_key = 'your-very-secret-random-key-here'
+
+# --- ADD THIS LINE ---
+# This "wraps" your app and tells it how to serve files from the 'static' folder
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/', prefix='static/')
+# ---------------------
 
 # --- SECRET FLAGS & PASSWORDS ---
 # (You can change these to whatever you want)
