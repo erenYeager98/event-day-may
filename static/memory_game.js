@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
             nextRoundDelay: 800
         },
         hard: {
-            flashDelay: 200,
-            nextPadDelay: 75,
-            nextRoundDelay: 600
+            flashDelay: 400,
+            nextPadDelay: 150,
+            nextRoundDelay: 1000
         }
     };
     // -------------------------
